@@ -8,7 +8,8 @@
       </a-form>
     </div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
+    <!-- @@ card style, viewStyle= card|list -->
+    <BasicCardTable viewStyle="card" @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -34,7 +35,7 @@
       </template>
       <template v-slot:bodyCell="{ column, record, index, text }">
       </template>
-    </BasicTable>
+    </BasicCardTable>
     <!-- 表单区域 -->
     <MemberModal ref="registerModal" @success="handleSuccess"></MemberModal>
   </div>
@@ -42,7 +43,7 @@
 
 <script lang="ts" name="org.ixkit.anvilj.member-member" setup>
   import { ref, reactive } from 'vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicCardTable, BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import { columns } from './Member.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './Member.api';
@@ -58,8 +59,9 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
+      prefixClsCard:"myCard",
       title: '基础资源 成员表',
-      api: list,
+      api: list, 
       columns,
       canResize:false,
       useSearchForm: false,
@@ -207,6 +209,34 @@
       width: 30px;
       display: inline-block;
       text-align: center
+    }
+  }
+</style>
+<!-- card style -->
+<style lang="less" scoped>
+   
+   .my_card {
+    
+    &__link {
+      margin-top: 10px;
+      font-size: 14px;
+
+      a {
+        margin-right: 30px;
+      }
+
+      span {
+        margin-left: 5px;
+      }
+    }
+
+    &__card {
+      width: 100%;
+      margin-bottom: -8px;
+
+      .ant-card-body {
+        padding: 0px;
+      } 
     }
   }
 </style>

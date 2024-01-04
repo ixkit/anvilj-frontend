@@ -1,5 +1,7 @@
 <template>
   <div class="table-settings">
+    <!-- @@ card style -->
+    <ViewStyleSetting v-if="getSetting.showViewStyle" :isMobile="isMobile" @switch-view-style="handleSwitchViewStyle"  :getPopupContainer="getTableContainer" />     
     <RedoSetting v-if="getSetting.redo" :isMobile="isMobile" :getPopupContainer="getTableContainer" />
     <SizeSetting v-if="getSetting.size" :isMobile="isMobile" :getPopupContainer="getTableContainer" />
     <ColumnSetting v-if="getSetting.setting" :isMobile="isMobile" @columns-change="handleColumnChange" :getPopupContainer="getTableContainer" />
@@ -13,6 +15,9 @@
   import ColumnSetting from './ColumnSetting.vue';
   import SizeSetting from './SizeSetting.vue';
   import RedoSetting from './RedoSetting.vue';
+  // @@ card style 
+  import ViewStyleSetting from './ViewStyleSetting.vue';
+
   import FullScreenSetting from './FullScreenSetting.vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useTableContext } from '../../hooks/useTableContext';
@@ -23,6 +28,7 @@
       ColumnSetting,
       SizeSetting,
       RedoSetting,
+      ViewStyleSetting,
       FullScreenSetting,
     },
     props: {
@@ -32,7 +38,7 @@
       },
       mode: String,
     },
-    emits: ['columns-change'],
+    emits: ['columns-change', 'switch-view-style'],
     setup(props, { emit }) {
       const { t } = useI18n();
       const table = useTableContext();
@@ -51,12 +57,16 @@
       function handleColumnChange(data: ColumnChangeParam[]) {
         emit('columns-change', data);
       }
+      //@@ card style 
+      function handleSwitchViewStyle(style: string) {
+        emit('switch-view-style', style);
+      }
 
       function getTableContainer() {
         return table ? unref(table.wrapRef) : document.body;
       }
 
-      return { getSetting, t, handleColumnChange, getTableContainer, isMobile };
+      return { getSetting, t, handleColumnChange, handleSwitchViewStyle, getTableContainer, isMobile };
     },
   });
 </script>

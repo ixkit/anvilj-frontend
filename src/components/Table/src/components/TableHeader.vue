@@ -13,7 +13,11 @@
       <div :class="`${prefixCls}__toolbar`">
         <slot name="toolbar"></slot>
         <Divider type="vertical" v-if="$slots.toolbar && showTableSetting" />
-        <TableSetting :class="`${prefixCls}__toolbar-desktop`" style="white-space: nowrap;" :setting="tableSetting" v-if="showTableSetting" @columns-change="handleColumnChange" />
+        <TableSetting :class="`${prefixCls}__toolbar-desktop`" style="white-space: nowrap;" :setting="tableSetting" v-if="showTableSetting" @columns-change="handleColumnChange"
+        @switch-view-style="handleSwitchViewStyle"  
+         />
+         <!-- @@ card style add '@switch-view-style="handleSwitchViewStyle"' -->
+
         <a-popover :overlayClassName="`${prefixCls}__toolbar-mobile`" trigger="click" placement="left" :getPopupContainer="(n) => n.parentElement">
           <template #content>
             <TableSetting mode="mobile" :setting="tableSetting" v-if="showTableSetting" @columns-change="handleColumnChange" />
@@ -78,21 +82,24 @@
         default: '',
       },
     },
-    emits: ['columns-change'],
+    emits: ['columns-change','switch-view-style'],
     setup(_, { emit }) {
       const { prefixCls } = useDesign('basic-table-header');
 
       function handleColumnChange(data: ColumnChangeParam[]) {
         emit('columns-change', data);
       }
-
+      //@@ card style 
+      function handleSwitchViewStyle(style: string) {
+        emit('switch-view-style', style);
+      }
       const { getSelectRowKeys, setSelectedRowKeys, getRowSelection } = useTableContext();
       const selectRowKeys = computed(() => getSelectRowKeys());
       const openRowSelection = computed(() => getRowSelection());
       // 是否允许跨页选择
       const isAcrossPage = computed(() => openRowSelection.value?.preserveSelectedRowKeys === true);
 
-      return { prefixCls, handleColumnChange, selectRowKeys, setSelectedRowKeys, openRowSelection, isAcrossPage };
+      return { prefixCls, handleColumnChange, handleSwitchViewStyle, selectRowKeys, setSelectedRowKeys, openRowSelection, isAcrossPage };
     },
   });
 </script>

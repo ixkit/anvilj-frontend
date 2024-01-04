@@ -83,6 +83,11 @@ export function useTable(tableProps?: Props): [
     setLoading: (loading: boolean) => {
       getTableInstance().setLoading(loading);
     },
+    //@@ card style 
+    setViewStyle: (style: string) => {
+      getTableInstance().setViewStyle(style);
+    },
+    
     getDataSource: () => {
       return getTableInstance().getDataSource();
     },

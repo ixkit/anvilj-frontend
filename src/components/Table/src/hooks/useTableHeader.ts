@@ -7,12 +7,18 @@ import { getSlot } from '/@/utils/helper/tsxHelper';
 
 export function useTableHeader(propsRef: ComputedRef<BasicTableProps>, slots: Slots, handlers: InnerHandlers) {
   const getHeaderProps = computed((): Recordable => {
-    const { title, showTableSetting, titleHelpMessage, tableSetting } = unref(propsRef);
+    //@@ card style, add viewStyle viewStyle,
+    const { title, showTableSetting, titleHelpMessage, viewStyle, tableSetting } = unref(propsRef);
     const hideTitle = !slots.tableTitle && !title && !slots.toolbar && !showTableSetting;
     if (hideTitle && !isString(title)) {
       return {};
     }
-
+    //@@ card style, add viewStyle
+    if (!tableSetting){
+      // cause error on draw ? 
+     // tableSetting.showViewStyle = !(viewStyle === null);
+    }
+     
     return {
       title: hideTitle
         ? null
@@ -22,9 +28,11 @@ export function useTableHeader(propsRef: ComputedRef<BasicTableProps>, slots: Sl
               {
                 title,
                 titleHelpMessage,
+                viewStyle, //@@ card style
                 showTableSetting,
                 tableSetting,
                 onColumnsChange: handlers.onColumnsChange,
+                onSwitchViewStyle: handlers.onSwitchViewStyle,
               } as Recordable,
               {
                 ...(slots.toolbar
