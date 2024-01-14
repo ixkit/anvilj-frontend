@@ -37,3 +37,5 @@ os_del.cmd
 
 # some dev doc
 devdoc/
+
+pnpm-lock.yaml
