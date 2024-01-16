@@ -4,13 +4,13 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/api/v1/anvilj/member/list',
-  save='/api/v1/anvilj/member/add',
-  edit='/api/v1/anvilj/member/edit',
-  deleteOne = '/api/v1/anvilj/member/delete',
-  deleteBatch = '/api/v1/anvilj/member/deleteBatch',
-  importExcel = '/api/v1/anvilj/member/importExcel',
-  exportXls = '/api/v1/anvilj/member/exportXls',
+  list = '/api/v1/partner/list',
+  save='/api/v1/partner/add',
+  edit='/api/v1/partner/edit',
+  deleteOne = '/api/v1/partner/delete',
+  deleteBatch = '/api/v1/partner/deleteBatch',
+  importExcel = '/api/v1/partner/importExcel',
+  exportXls = '/api/v1/partner/exportXls',
 }
 
 /**

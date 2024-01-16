@@ -8,8 +8,7 @@
       </a-form>
     </div>
     <!--引用表格-->
-    <!-- @@ card style, viewStyle= card|list -->
-    <BasicCardTable viewStyle="card" @register="registerTable" :rowSelection="rowSelection">
+    <BasicCardTable @register="registerTable" :rowSelection="rowSelection" viewStyle="card">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -28,6 +27,8 @@
             <Icon icon="mdi:chevron-down"></Icon>
           </a-button>
         </a-dropdown>
+        <!-- 高级查询 -->
+        <super-query :config="superQueryConfig" @search="handleSuperQuery" />
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -37,18 +38,18 @@
       </template>
     </BasicCardTable>
     <!-- 表单区域 -->
-    <MemberModal ref="registerModal" @success="handleSuccess"></MemberModal>
+    <PartnerModal ref="registerModal" @success="handleSuccess"></PartnerModal>
   </div>
 </template>
 
-<script lang="ts" name="org.ixkit.anvilj.member-member" setup>
+<script lang="ts" name="org.ixkit.anvilj.partner-partner" setup>
   import { ref, reactive } from 'vue';
-  import { BasicCardTable, BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, BasicCardTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import { columns } from './Member.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './Member.api';
+  import { columns, superQuerySchema } from './Partner.data';
+  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './Partner.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import MemberModal from './components/MemberModal.vue'
+  import PartnerModal from './components/PartnerModal.vue'
   import { useUserStore } from '/@/store/modules/user';
 
   const formRef = ref();
@@ -59,9 +60,8 @@
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
-      prefixClsCard:"myCard",
-      title: '基础资源 成员表',
-      api: list, 
+      title: 'Partner',
+      api: list,
       columns,
       canResize:false,
       useSearchForm: false,
@@ -74,7 +74,7 @@
       },
     },
     exportConfig: {
-      name: "基础资源 成员表",
+      name: "Partner",
       url: getExportUrl,
       params: queryParam,
     },
@@ -94,6 +94,19 @@
     xs: 24,
     sm: 20,
   });
+
+  // 高级查询配置
+  const superQueryConfig = reactive(superQuerySchema);
+
+  /**
+   * 高级查询事件
+   */
+  function handleSuperQuery(params) {
+    Object.keys(params).map((k) => {
+      queryParam[k] = params[k];
+    });
+    searchQuery();
+  }
 
   /**
    * 新增事件
@@ -202,41 +215,12 @@
       white-space: nowrap;
     }
     .query-group-cust{
-      width: calc(50% - 15px);
       min-width: 100px !important;
     }
     .query-group-split-cust{
       width: 30px;
       display: inline-block;
       text-align: center
-    }
-  }
-</style>
-<!-- card style -->
-<style lang="less" scoped>
-   
-   .my_card {
-    
-    &__link {
-      margin-top: 10px;
-      font-size: 14px;
-
-      a {
-        margin-right: 30px;
-      }
-
-      span {
-        margin-left: 5px;
-      }
-    }
-
-    &__card {
-      width: 100%;
-      margin-bottom: -8px;
-
-      .ant-card-body {
-        padding: 0px;
-      } 
     }
   }
 </style>

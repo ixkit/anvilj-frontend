@@ -8,6 +8,26 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
+          <a-form-item label="EMAIL" v-bind="validateInfos.email">
+            <a-input v-model:value="formData.email" placeholder="请输入EMAIL" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="phone" v-bind="validateInfos.phone">
+            <a-input v-model:value="formData.phone" placeholder="请输入phone" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="昵称" v-bind="validateInfos.nickName">
+            <a-input v-model:value="formData.nickName" placeholder="请输入昵称" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="实名" v-bind="validateInfos.legalName">
+            <a-input v-model:value="formData.legalName" placeholder="请输入实名" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
           <a-form-item label="备注" v-bind="validateInfos.remark">
             <a-input v-model:value="formData.remark" placeholder="请输入备注" :disabled="disabled"></a-input>
           </a-form-item>
@@ -32,6 +52,11 @@
 	          <a-input-number v-model:value="formData.rawVer" placeholder="请输入乐观锁" style="width: 100%" :disabled="disabled"/>
           </a-form-item>
         </a-col>
+        <a-col :span="24">
+          <a-form-item label="关联 SysUserId" v-bind="validateInfos.refSysUserId">
+            <a-input v-model:value="formData.refSysUserId" placeholder="请输入关联 SysUserId" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
       </a-row>
     </a-form>
   </a-spin>
@@ -42,7 +67,7 @@
   import { defHttp } from '/@/utils/http/axios';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { getValueType } from '/@/utils';
-  import { saveOrUpdate } from '../Member.api';
+  import { saveOrUpdate } from '../Partner.api';
   import { Form } from 'ant-design-vue';
   
   const props = defineProps({
@@ -56,11 +81,16 @@
   const formData = reactive<Record<string, any>>({
     id: '',
     name: '',   
+    email: '',   
+    phone: '',   
+    nickName: '',   
+    legalName: '',   
     remark: '',   
     status: '',   
     extraData: '',   
     tenantId: undefined,
     rawVer: undefined,
+    refSysUserId: '',   
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -150,8 +180,8 @@
 
 <style lang="less" scoped>
   .antd-modal-form {
-    min-height: 500px !important;
+    height: 500px !important;
     overflow-y: auto;
-    padding: 24px 24px 24px 24px;
+    padding: 14px;
   }
 </style>

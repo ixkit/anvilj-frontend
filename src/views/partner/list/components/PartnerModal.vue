@@ -1,12 +1,12 @@
 <template>
   <a-modal :title="title" :width="width" :visible="visible" @ok="handleOk" :okButtonProps="{ class: { 'jee-hidden': disableSubmit } }" @cancel="handleCancel" cancelText="关闭">
-    <MemberForm ref="registerForm" @ok="submitCallback" :formDisabled="disableSubmit" :formBpm="false"></MemberForm>
+    <PartnerForm ref="registerForm" @ok="submitCallback" :formDisabled="disableSubmit" :formBpm="false"></PartnerForm>
   </a-modal>
 </template>
 
 <script lang="ts" setup>
   import { ref, nextTick, defineExpose } from 'vue';
-  import MemberForm from './MemberForm.vue'
+  import PartnerForm from './PartnerForm.vue'
   
   const title = ref<string>('');
   const width = ref<number>(800);
