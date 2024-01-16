@@ -1,6 +1,9 @@
 <template> 
   <a-layout :class="prefixCls">
-    <a-layout-header v-show="false" class="header" >
+    <a-layout-header v-show="true" class="header" >
+      <!-- <AppLocalePicker class="absolute top-4 right-4 enter-x xl:text-gray-600" :showText="false"/>
+      <AppDarkModeToggle class="absolute top-3 right-7 enter-x" /> -->
+      <a-icon type="menu-unfold" style="color:white;" class="absolute top-3 right-7 enter-x" @click="onTapMenu" />
     </a-layout-header>
     <a-layout-content > 
      <landing></landing>
@@ -14,13 +17,14 @@
   import { AppLogo } from '/@/components/Application';
   import { AppLocalePicker, AppDarkModeToggle } from '/@/components/Application';
   import { SettingOutlined, EditOutlined, DeleteOutlined, PlayCircleOutlined,EllipsisOutlined } from '@ant-design/icons-vue';
-  
+  import { router } from "/@/router";
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLocaleStore } from '/@/store/modules/locale';
   import { useLoginState, LoginStateEnum } from '../env/useLogin';
   import   landing   from './landing/index.vue';
+  
   defineProps({
     sessionTimeout: {
       type: Boolean,
@@ -35,6 +39,10 @@
   const title = computed(() => globSetting?.title ?? '');
   const { handleBackLogin } = useLoginState();
   //handleBackLogin(); 
+
+  const onTapMenu = function(){
+    router.push({ path: '/login', query: { plan: 'private' }})
+  }
 </script>
 <style lang="less">
   @prefix-cls: ~'@{namespace}-website';
@@ -42,6 +50,8 @@
   @countdown-prefix-cls: ~'@{namespace}-countdown-input';
   @dark-bg: #293146;
   @light-bg: #fff;
+  @themeColor: #43A047;
+  @themeFontColor: white;
   html[data-theme='dark'] {
     .@{prefix-cls} {
       background-color: @dark-bg;
@@ -77,17 +87,23 @@
   }
 
   .header {
-        background: transparent !important;
+      background: transparent !important;
+     
+  }
+  
+  .anticon:hover {
+    color: yellow;
+    cursor:  pointer;
   }
   .@{prefix-cls} {
     min-height: 100%;
     overflow: hidden;
-    background-color: @light-bg;
+    background-color: @themeColor;//@light-bg;
     @media (max-width: @screen-xl) {
-      background-color: #293146;
+      background-color: @themeColor;
 
       .@{prefix-cls}-header {
-        background-color: @light-bg;
+        background-color: @themeColor;// @light-bg;
       }
     }
  

@@ -18,9 +18,9 @@ export function getAdminConsoleDef(){
 }
 
 // website home
-const WebsiteHomeRoute: AppRouteRecordRaw = {
+const WebSiteHomeRoute: AppRouteRecordRaw = {
   path: '/',
-  name: 'WebsiteHomeRoute',
+  name: 'WebSiteHomeRoute',
   component: () => import('/@/website/home/index.vue'),
   meta: {
     title: t('网站首页'),
@@ -28,7 +28,20 @@ const WebsiteHomeRoute: AppRouteRecordRaw = {
   },
 };
 
-export const RootRoute = WebsiteHomeRoute;
+export const RootRoute = WebSiteHomeRoute;
+
+// WebSiteLogin
+export const WebSiteLoginRoute: AppRouteRecordRaw = {
+  path: '/login',
+  name: 'Login',
+  //新版后台登录，如果想要使用旧版登录放开即可
+  // component: () => import('/@/views/sys/login/Login.vue'),
+  component: () => import('/@/website/system/loginmini/MiniLogin.vue'),
+  meta: {
+    title: t('routes.basic.login'),
+    ignoreAuth: true,
+  },
+};
 
 // webview
 export const WebViewRoute: AppRouteRecordRaw = {
@@ -54,5 +67,5 @@ export const AdminConsoleRoute: AppRouteRecordRaw = {
 };
 
 
-//Website routing
-export const webSiteRoutes = [WebViewRoute, AdminConsoleRoute];
+//Website routing without permission?
+export const webSiteRoutes = [WebSiteLoginRoute, WebViewRoute, AdminConsoleRoute];
