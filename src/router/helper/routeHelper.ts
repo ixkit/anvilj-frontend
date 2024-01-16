@@ -11,6 +11,9 @@ import { URL_HASH_TAB, _eval } from '/@/utils';
 import { packageViews } from '/@/utils/monorepo/dynamicRouter';
 import {useI18n} from "/@/hooks/web/useI18n";
 
+//@@step 
+import { format2AdminRoute } from '/@/webrouter/helper/routeHelper';
+
 export type LayoutMapKey = 'LAYOUT';
 const IFRAME = () => import('/@/views/sys/iframe/FrameBlank.vue');
 const LayoutContent = () => import('/@/layouts/default/content/index.vue');
@@ -33,6 +36,9 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
   }
   if (!routes) return;
   routes.forEach((item) => {
+    //@@step
+    console.log('🧐 asyncImportRoute, router?', item);
+    format2AdminRoute(item);
 
     //【jeecg-boot/issues/I5N2PN】左侧动态菜单怎么做国际化处理  2022-10-09
     //菜单支持国际化翻译

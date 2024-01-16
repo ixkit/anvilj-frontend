@@ -1,4 +1,6 @@
-export enum PageEnum {
+import { PageEnumAdmin } from '/@/webrouter/routes/pageEnumAdmin';
+//@@ step
+export enum PageEnumDiscard {
   // basic login path
   BASE_LOGIN = '/login',
   // basic home path
@@ -14,3 +16,5 @@ export enum PageEnum {
   // 邮件中的跳转地址
   TOKEN_LOGIN = '/tokenLogin'
 }
+
+export { PageEnumAdmin as PageEnum };

@@ -115,6 +115,8 @@ export function createPermissionGuard(router: Router) {
         //update-end---author:wangshuai ---date:20230302  for：只有首次登陆并且是企业微信或者钉钉的情况下才会调用------------
         // 如果当前是在OAuth2APP环境，就跳转到OAuth2登录页面，否则跳转到登录页面
         path = isOAuth2AppEnv() ? OAUTH2_LOGIN_PAGE_PATH : LOGIN_PATH;
+        //@@step, force redirect to root, avoid attack
+        path = PageEnum.ANONYM_NO_MATCH_ROUTE;
       }
       //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2未实现------------
       // redirect login page
