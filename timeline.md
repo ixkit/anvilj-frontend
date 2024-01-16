@@ -6,3 +6,17 @@
     * 前端页面分为展示网站、后台管理两个入口
 
 ### 2024-1-16,add register via email feature
+
+### 2024-1-16, Route name can not be duplicated 
+```
+export const WebSiteLoginRoute: AppRouteRecordRaw = {
+  path: '/login',
+  name: 'Login',
+  component: () => import('/@/website/system/loginmini/MiniLogin.vue'),
+  meta: {
+    title: t('routes.basic.login'),
+    ignoreAuth: true,
+  },
+};
+```
+the Route name should be unique or else occurs unexpected problem.

@@ -37,7 +37,7 @@ const adminRootPath = getAdminConsoleDef().root;
 
 export const LoginRoute: AppRouteRecordRaw = {
   path: adminRootPath + '/login',
-  name: 'Login',
+  name: 'AdminConsole Login',
   //新版后台登录，如果想要使用旧版登录放开即可
   // component: () => import('/@/views/sys/login/Login.vue'),
   component: () => import('/@/views/system/loginmini/MiniLogin.vue'),
