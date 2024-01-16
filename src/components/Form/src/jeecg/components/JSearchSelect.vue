@@ -9,7 +9,7 @@
     allowClear
     :getPopupContainer="getParentContainer"
     :placeholder="placeholder"
-    :filterOption="false"
+    :filterOption="isDictTable ? false : filterOption"
     :notFoundContent="loading ? undefined : null"
     @search="loadData"
     @change="handleAsyncChange"
@@ -63,7 +63,7 @@
       pageSize: propTypes.number.def(10),
       getPopupContainer: {
         type: Function,
-        default: (node) => node.parentNode,
+        default: (node) => node?.parentNode,
       },
       //默认开启Y轴溢出位置调整，因此在可视空间不足时下拉框位置会自动上移，导致Select的输入框被遮挡。需要注意的是，默认情况是是可视空间，而不是所拥有的空间
       //update-begin-author:liusq date:2023-04-04 for:[issue/286]下拉搜索框遮挡问题
@@ -91,12 +91,29 @@
       const lastLoad = ref(0);
       // 是否根据value加载text
       const loadSelectText = ref(true);
+
+      // 是否是字典表
+      const isDictTable = computed(() => {
+        if (props.dict) {
+          return props.dict.split(',').length >= 2
+        }
+        return false;
+      })
+
       /**
        * 监听字典code
        */
-      watchEffect(() => {
-        props.dict && initDictData();
-      });
+      watch(() => props.dict, () => {
+        if (!props.dict) {
+          return
+        }
+        if (isDictTable.value) {
+          initDictTableData();
+        } else {
+          initDictCodeData();
+        }
+      }, {immediate: true});
+
       /**
        * 监听value
        */
@@ -128,6 +145,9 @@
        * 异步查询数据
        */
       async function loadData(value) {
+        if (!isDictTable.value) {
+          return;
+        }
         lastLoad.value += 1;
         const currentLoad = unref(lastLoad);
         options.value = [];
@@ -190,7 +210,7 @@
       /**
        * 初始化字典下拉数据
        */
-      async function initDictData() {
+      async function initDictTableData() {
         let { dict, async, dictOptions, pageSize } = props;
         if (!async) {
           //如果字典项集合有数据
@@ -233,6 +253,14 @@
           }
         }
       }
+
+      /**
+       * 查询数据字典
+       */
+      async function initDictCodeData() {
+        options.value = await initDictOptions(props.dict);
+      }
+
       /**
        * 同步改变事件
        * */
@@ -288,7 +316,7 @@
           if (typeof props.getPopupContainer === 'function') {
             return props.getPopupContainer(node);
           } else {
-            return node.parentNode;
+            return node?.parentNode;
           }
         }
         // update-end-author:taoyan date:20220407 for: getPopupContainer一直有值 导致popContainer的逻辑永远走不进去，把它挪到前面判断
@@ -316,6 +344,7 @@
         attrs,
         options,
         loading,
+        isDictTable,
         selectedValue,
         selectedAsyncValue,
         loadData: useDebounceFn(loadData, 800),

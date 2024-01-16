@@ -271,6 +271,7 @@ export function useDataSource(
       if (afterFetch && isFunction(afterFetch)) {
         resultItems = (await afterFetch(resultItems)) || resultItems;
       }
+      console.log('dddkey?',resultItems);
       dataSourceRef.value = resultItems;
       setPagination({
         total: Number(resultTotal) || 0,

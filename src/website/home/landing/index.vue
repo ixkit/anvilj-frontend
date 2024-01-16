@@ -2,7 +2,7 @@
     <div class="intro">Hello, I'm AnvilJ ! 🚀 </div>
     <div class="tagline">Build Trustable Application 🔨 ☕️ 🚀</div>
     <!-- Find your icons from here - https://fontawesome.com/icons?d=gallery&s=brands -->
-    <div class="icons-social">
+    <div class="icons-social" >
         <a target="_blank" href="https://github.com/ixkit/anvilj">
     <i class="fab fa-github" aria-hidden="true" title="Github"></i>
     <span class="sr-only">Github</span>

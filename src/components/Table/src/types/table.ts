@@ -102,6 +102,9 @@ export interface TableActionType {
   getDataSource: <T = Recordable>() => T[];
   getRawDataSource: <T = Recordable>() => T;
   setLoading: (loading: boolean) => void;
+  //@@ card style 
+  setViewStyle: (style: string) => void;
+  
   setProps: (props: Partial<BasicTableProps>) => void;
   redoHeight: () => void;
   setSelectedRowKeys: (rowKeys: string[] | number[]) => void;
@@ -128,6 +131,8 @@ export interface FetchSetting {
 }
 
 export interface TableSetting {
+  //@@ card style 是否显示切换视图(card|list)按钮 
+  showViewStyle?: boolean;
   // 是否显示刷新按钮
   redo?: boolean;
   // 是否显示尺寸调整按钮
@@ -141,6 +146,8 @@ export interface TableSetting {
 }
 
 export interface BasicTableProps<T = any> {
+  //@@ card style
+  viewStyle?: string;
   // 点击行选中
   clickToRowSelect?: boolean;
   isTreeTable?: boolean;
@@ -409,12 +416,15 @@ export interface BasicTableProps<T = any> {
   onExpandedRowsChange?: (expandedRows: string[] | number[]) => void;
 
   onColumnsChange?: (data: ColumnChangeParam[]) => void;
+
+  //@@ card style 
+  onSwitchViewStyle: (style: string) => void;
 }
 
 export type CellFormat = string | ((text: string, record: Recordable, index: number) => string | number) | Map<string | number, any>;
 
 // @ts-ignore
-export interface BasicColumn extends ColumnProps {
+export interface BasicColumn extends ColumnProps<Recordable> {
   children?: BasicColumn[];
   filters?: {
     text: string;
@@ -463,4 +473,6 @@ export type ColumnChangeParam = {
 
 export interface InnerHandlers {
   onColumnsChange: (data: ColumnChangeParam[]) => void;
+  //@@ card style 
+  onSwitchViewStyle: (style: string) => void;
 }

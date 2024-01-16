@@ -5,7 +5,7 @@ import type { FormProps } from '/@/components/Form';
 import { DEFAULT_FILTER_FN, DEFAULT_SORT_FN, FETCH_SETTING, DEFAULT_SIZE } from './const';
 import { propTypes } from '/@/utils/propTypes';
 
-export const basicProps = {
+export const basicProps = { 
   clickToRowSelect: propTypes.bool.def(true),
   isTreeTable: propTypes.bool.def(false),
   tableSetting: propTypes.shape<TableSetting>({}),
@@ -140,6 +140,11 @@ export const basicProps = {
   },
   expandedRowKeys: {
     type: Array,
+    default: null,
+  },
+  //@@ card style 
+  viewStyle: {
+    type: [String, Array] as PropType<string | string[]>,
     default: null,
   },
 };

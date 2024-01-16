@@ -202,6 +202,22 @@
         if (characterInx !== -1 && !rules[characterInx].validator) {
           rules[characterInx].message = rules[characterInx].message || t('component.form.maxTip', [rules[characterInx].max] as Recordable);
         }
+        // update-begin--author:liaozhiyang---date:20241226---for：【QQYUN-7495】pattern由字符串改成正则传递给antd（因使用InputNumber时发现正则无效）
+        rules.forEach((item) => {
+          if (typeof item.pattern === 'string') {
+            try {
+              const reg = new Function('item', `return ${item.pattern}`)(item);
+              if (Object.prototype.toString.call(reg) === '[object RegExp]') {
+                item.pattern = reg;
+              } else {
+                item.pattern = new RegExp(item.pattern);
+              }
+            } catch (error) {
+              item.pattern = new RegExp(item.pattern);
+            }
+          }
+        });
+        // update-end--author:liaozhiyang---date:20231226---for：【QQYUN-7495】pattern由字符串改成正则传递给antd（因使用InputNumber时发现正则无效）
         return rules;
       }
 
@@ -249,7 +265,10 @@
         const { autoSetPlaceHolder, size } = props.formProps;
         const propsData: Recordable = {
           allowClear: true,
-          getPopupContainer: (trigger: Element) => trigger.parentNode,
+          getPopupContainer: (trigger: Element) => {
+
+            return trigger?.parentNode;
+          },
           size,
           ...unref(getComponentsProps),
           disabled: unref(getDisable),
@@ -372,10 +391,10 @@
         // update-begin--author:liaozhiyang---date:20230803---for：【issues-641】调整表格搜索表单的span配置无效 
         const { getIsMobile } = useAppInject();
         let realColProps;
-        if (colProps['span'] && !unref(getIsMobile)) {
-          ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].forEach((name) => delete baseColProps[name]);
-        }
         realColProps = { ...baseColProps, ...colProps };
+        if (colProps['span'] && !unref(getIsMobile)) {
+          ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].forEach((name) => delete realColProps[name]);
+        }
         // update-end--author:liaozhiyang---date:20230803---for：【issues-641】调整表格搜索表单的span配置无效 
         const { isIfShow, isShow } = getShow();
         const values = unref(getValues);

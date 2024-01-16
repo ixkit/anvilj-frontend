@@ -41,7 +41,7 @@
         </a-row>
       </a-form>
     </div>
-    <BasicTable @register="registerTable" :rowSelection="rowSelection" :class="{ 'p-4': customSearch }">
+    <BasicCardTable @register="registerTable" :rowSelection="rowSelection" :class="{ 'p-4': customSearch }">
       <template #form-age="{ model, field }">
         <a-input placeholder="最小年龄" type="ge" v-model:value="min" style="width: calc(50% - 15px)" @change="ageChange(model, field)"></a-input>
         <span>~</span>
@@ -80,14 +80,14 @@
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
       </template>
-    </BasicTable>
+    </BasicCardTable>
     <DemoModal @register="registerModal" @success="reload" :isDisabled="isDisabled"/>
     <JImportModal @register="registerModalJimport" :url="getImportUrl" online />
   </div>
 </template>
 <script lang="ts" setup>
   import { ref, unref, reactive, toRaw, watch,computed } from 'vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicCardTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import DemoModal from './DemoModal.vue';
   import JImportModal from '/@/components/Form/src/jeecg/components/JImportModal.vue';
