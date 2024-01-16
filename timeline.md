@@ -7,7 +7,7 @@
 
 ### 2024-1-16,add register via email feature
 
-### 2024-1-16, Route name can not be duplicated 
+### 2024-1-16, Route name can not be duplicated, should be unique.
 ```
 export const WebSiteLoginRoute: AppRouteRecordRaw = {
   path: '/login',
