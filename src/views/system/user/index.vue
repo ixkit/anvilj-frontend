@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
+    <BasicCardTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 新增</a-button>
@@ -35,7 +35,7 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
-    </BasicTable>
+    </BasicCardTable>
     <!--用户抽屉-->
     <UserDrawer @register="registerDrawer" @success="handleSuccess" />
     <!--修改密码-->
@@ -54,7 +54,7 @@
 <script lang="ts" name="system-user" setup>
   //ts语法
   import { ref, computed, unref } from 'vue';
-  import { BasicTable, TableAction, ActionItem } from '/@/components/Table';
+  import { BasicTable, BasicCardTable, TableAction, ActionItem } from '/@/components/Table';
   import UserDrawer from './UserDrawer.vue';
   import UserRecycleBinModal from './UserRecycleBinModal.vue';
   import PasswordModal from './PasswordModal.vue';
