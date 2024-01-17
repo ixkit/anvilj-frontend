@@ -3,6 +3,14 @@
       
  Frontend for AnvilJ
 
+### Features
+-  Tow Modules: WebSite and AdminConsole
+  User roles: website user and enterpise inner user 
+
+    Web vistior ---> WebSite entry: http://localhost:3100/
+    Admisitor/Employee ---> AdminConsole: http://localhost:3100/admin/login
+
+-  WebSite user register via Email
 ***
   Dependents Frameworks and Infrastructures:
 
