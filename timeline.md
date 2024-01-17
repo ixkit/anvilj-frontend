@@ -20,3 +20,10 @@ export const WebSiteLoginRoute: AppRouteRecordRaw = {
 };
 ```
 the Route name should be unique or else occurs unexpected problem.
+
+### 2024-1-17, Tow Modules: WebSite and AdminConsole, login & logout split
+-  Tow Modules: WebSite and AdminConsole  
+  User roles: website user and enterprise inner user 
+
+    Web vistior ---> WebSite entry: http://localhost:3100/  
+    Admisitor/Employee ---> AdminConsole: http://localhost:3100/admin/login

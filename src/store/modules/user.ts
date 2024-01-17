@@ -29,8 +29,12 @@ interface UserState {
   tenantid?: string | number;
   shareTenantId?: Nullable<string | number>;
   loginInfo?: Nullable<LoginInfo>;
+  //@@step
+  loginEntryRoute?;
 }
-
+function getCurrentRoute(){
+  return router.currentRoute.value
+}
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
@@ -53,8 +57,13 @@ export const useUserStore = defineStore({
     shareTenantId: null,
     //登录返回信息
     loginInfo: null,
+    //@@step 
+    loginEntryRoute: null,
   }),
   getters: {
+    getLoginEntryRoute() {
+      return this.loginEntryRoute;
+    },
     getUserInfo(): UserInfo {
       return this.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
     },
@@ -88,6 +97,15 @@ export const useUserStore = defineStore({
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);
+      //@step keep current route for back while logout
+      if (info) {
+        const route = getCurrentRoute();
+        this.loginEntryRoute = {
+          path: route.path,
+        };
+      } else {
+        this.loginEntryRoute = null;
+      }
     },
     setRoleList(roleList: RoleEnum[]) {
       this.roleList = roleList;
@@ -265,7 +283,9 @@ export const useUserStore = defineStore({
           console.log('注销Token失败');
         }
       }
-
+      //@@step 
+      const loginEntryRoute = this.loginEntryRoute;
+      console.log('loginEntryRoute?', loginEntryRoute);
       // //update-begin-author:taoyan date:2022-5-5 for: src/layouts/default/header/index.vue showLoginSelect方法 获取tenantId 退出登录后再次登录依然能获取到值，没有清空
       // let username:any = this.userInfo && this.userInfo.username;
       // if(username){
@@ -297,7 +317,9 @@ export const useUserStore = defineStore({
       }else{
         // update-begin-author:sunjianlei date:20230306 for: 修复登录成功后，没有正确重定向的问题
         goLogin && (await router.push({
-          path: PageEnum.BASE_LOGIN,
+          //path: PageEnum.BASE_LOGIN,
+          //@@step 
+          path: loginEntryRoute? loginEntryRoute.path : PageEnum.BASE_LOGIN,
           query: {
             // 传入当前的路由，登录成功后跳转到当前路由
             redirect: router.currentRoute.value.fullPath,
