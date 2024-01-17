@@ -21,7 +21,7 @@ export const WebSiteLoginRoute: AppRouteRecordRaw = {
 ```
 the Route name should be unique or else occurs unexpected problem.
 
-### 2024-1-17, Tow Modules: WebSite and AdminConsole, login & logout split
+### 2024-1-17, Tow Modules: WebSite and AdminConsole, login entry & logout split
 -  Tow Modules: WebSite and AdminConsole  
   User roles: website user and enterprise inner user 
 
