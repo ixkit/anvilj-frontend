@@ -252,6 +252,10 @@
     }
   }
 
+  function getHostPath(){
+      var hostOrigin = window.location.origin;
+      return hostOrigin;  
+  }
   /**
    * @@ 邮箱方式 注册账号
    */
@@ -261,6 +265,9 @@
           name: formData.username,
           password: formData.password,
           email: formData.email,
+          bucket:{
+            redirectLink: getHostPath()
+          }
         };
       const resultInfo = await emailRegister(
         toRaw(intent)
