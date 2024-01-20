@@ -3,7 +3,13 @@
     <a-layout-header v-show="true" class="header" >
       <!-- <AppLocalePicker class="absolute top-4 right-4 enter-x xl:text-gray-600" :showText="false"/>
       <AppDarkModeToggle class="absolute top-3 right-7 enter-x" /> -->
-      <a-icon type="menu-unfold" style="color:white;" class="absolute top-3 right-7 enter-x" @click="onTapMenu" />
+      <a-tooltip placement="left" overlayClassName="bgc_tooltip"> 
+       <template #title>
+        <span v-html="guideTip"> </span>
+       </template>
+        <a-icon type="menu-unfold" style="color:white;" class="absolute top-3 right-7 enter-x" @click="onTapMenu" />
+      </a-tooltip>
+      
     </a-layout-header>
     <a-layout-content > 
      <landing></landing>
@@ -13,7 +19,7 @@
   </a-layout> 
 </template>
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import { ref, computed } from 'vue';
   import { AppLogo } from '/@/components/Application';
   import { AppLocalePicker, AppDarkModeToggle } from '/@/components/Application';
   import { SettingOutlined, EditOutlined, DeleteOutlined, PlayCircleOutlined,EllipsisOutlined } from '@ant-design/icons-vue';
@@ -39,6 +45,7 @@
   const title = computed(() => globSetting?.title ?? '');
   const { handleBackLogin } = useLoginState();
   //handleBackLogin(); 
+  const guideTip = ref('<span>Login🔑</span>');
 
   const onTapMenu = function(){
     router.push({ path: '/login', query: { plan: 'private' }})
